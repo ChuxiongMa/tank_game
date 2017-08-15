@@ -1,0 +1,44 @@
+{
+  "name": "app",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "cross-env NODE_ENV=production forever start ./bin/www"
+  },
+  "dependencies": {
+    "angular": "^1.6.5",
+    "angular-route": "^1.6.5",
+    "bcrypt-nodejs": "latest",
+    "body-parser": "^1.17.2",
+    "bootstrap": "^3.3.7",
+    "cookie-parser": "~1.4.3",
+    "csurf": "^1.9.0",
+    "debug": "~2.6.3",
+    "ejs": "~2.5.6",
+    "express": "~4.15.2",
+    "express-ejs-layouts": "^2.3.0",
+    "express-flash": "0.0.2",
+    "express-recaptcha": "^2.2.0",
+    "express-session": "~1.0.0",
+    "formidable": "^1.1.1",
+    "fs": "0.0.1-security",
+    "jquery": "^3.2.1",
+    "method-override": "^2.3.9",
+    "mongoose": "^4.11.3",
+    "morgan": "~1.8.1",
+    "mv": "^2.1.1",
+    "nodemailer": "^4.0.1",
+    "passport": "~0.1.17",
+    "passport-facebook": "~1.0.2",
+    "passport-google-oauth": "~0.1.5",
+    "passport-local": "~0.1.6",
+    "passport-twitter": "~1.0.2",
+    "path": "^0.12.7",
+    "serve-favicon": "~2.4.2",
+    "socket.io": "^2.0.3",
+    "xoauth2": "^1.2.0"
+  },
+  "devDependencies": {
+    "cross-env": "^5.0.4"
+  }
+}

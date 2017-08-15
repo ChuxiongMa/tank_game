@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dawn of the Tanks <%= typeof title != 'undefined' ? ' - ' + title : '' %></title>
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta content="<%= csrfToken %>" name="csrfToken">
+
+		<!-- bootstrap, jquery and angular -->
+		<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+		<script src="/jquery/jquery.min.js"></script>
+		<script src="/bootstrap/js/bootstrap.min.js"></script>
+		<script src="/angular/angular.min.js"></script>
+		<script src="/angular-route/angular-route.min.js"></script>
+
+		<!-- custom css and js -->
+		<link rel="stylesheet" href="/stylesheets/style.css" />
+		<link rel="stylesheet" href="/stylesheets/navbar.css" />
+		<link rel="stylesheet" href="/stylesheets/sidebar.css" />
+		<%- style %>
+		<script src="/javascripts/navbar.js"></script>
+		<script src="/javascripts/script.js"></script>
+	</head>
+	<body>
+		<% include _navbar %>
+		<% if(loggedIn) { %>
+			<% include _sidebar %>
+		<% } %>
+
+		<div class="container">
+			<%- body %>
+
+			<script src="/socket.io/socket.io.js"></script>
+			<script src="/javascripts/usersOnlineClient.js"></script>
+			<%- script %>
+		</div>
+	</body>
+</html>

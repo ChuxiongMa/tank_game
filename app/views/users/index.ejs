@@ -1,0 +1,102 @@
+<link rel="stylesheet" type="text/css" href="/stylesheets/search.css">
+
+<div class="page-header text-center">
+<h1>
+	<span>U</span>
+	<span>s</span>
+	<span>e</span>
+	<span>r</span>
+	<span>s</span>
+</h1>
+</div>
+
+<ng-view></ng-view>
+
+<!-- Template -->
+<script type="text/ng-template" id="/users.html">
+	<div class="form-inline">
+		<label>Search: </label>
+		<input type="text" class="form-control" ng-model="search.local.username">
+		<label ng-if="isLogged1()">(Login to see number of mutual friend(s))</label>
+	</div>
+	<ul class="users-list">
+		<li ng-repeat="user in users | filter: search" >
+		<br>
+			<img class="user-image" ng-src="/users/{{user._id}}/img"  >
+        <label class="name" >
+			<a href="/users/{{user._id}}">{{user.local.username}}</a>
+			&nbsp;
+			<label class="pull-right" ng-if="isLogged()" ng-bind="{{'mutual' +user._id}}" ng-init="getMutual(user._id)">{{$scope.id}}</label>  
+        </label>
+           
+        <div class="break"></div>
+		</li>
+	</ul>
+</script>
+
+<script>
+	angular.module('app', ['ngRoute'])
+		//---------------
+		// Controllers
+		//---------------
+		.controller('UsersController', function ($scope, $http) {
+			$http.get('/users', {
+				headers: {
+					'Accept': 'application/json'
+				}
+			}).then(function(response) {
+				var users = response.data;
+				$scope.users = users;
+			});
+
+			$http.get('profile/username', {
+				headers: {
+					'Accept': 'application/json'
+				}
+			}).then(function(response) {
+				     if(response.data.status == 403){
+				         $scope.isLogged = function(){
+                             return false;
+                           };
+
+                           $scope.isLogged1 = function(){
+                             return true;
+                           };
+				     }else{
+                         $scope.isLogged = function(){
+                             return true;
+                           };
+                         $scope.isLogged1 = function(){
+                             return false;
+                           };
+				}
+			});
+
+			$scope.getMutual = function (data) {
+				$http.get('/users/'+ data +'/mutual', {_csrf: '<%= csrfToken %>'})
+				.then(function (result) {
+				        var output = "mutual" + data;
+				        if(result["data"] == "It's yourself") {
+                            $scope[output] = result["data"].toString();
+				        }
+				        else {
+				           $scope[output] = '[ ' + result["data"].length + " Mutual Friend(s)" + ' ]';
+				        }
+                        
+
+				})
+			};
+
+		})
+
+		//---------------
+		// Routes
+		//---------------
+		.config(['$routeProvider', function ($routeProvider) {
+			$routeProvider
+				.when('/', {
+					templateUrl: '/users.html',
+					controller: 'UsersController'
+				});
+		}]);
+</script>
